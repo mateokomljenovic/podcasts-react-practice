@@ -1,28 +1,32 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'; 
+import CardList from './CardList'; 
+import { podcasts } from './podcasts'
+import SearchBox from './SearchBox';
+import './App.css'
 
 class App extends Component {
-  render() {
+    constructor () {
+        super()
+        this.state = {
+            podcasts: podcasts,
+            searchfield: ''
+        }
+    }
+    changeOnSearch = (event) => {
+        this.setState({searchfield: event.target.value})
+    }
+    render () {
+        const filteredPodcasts = this.state.podcasts.filter(podcasts => {
+            return podcasts.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+        })
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <div className="tc">
+            <h1 className="f1">Podcasts</h1>
+            <SearchBox searchChange = {this.changeOnSearch} />
+            <CardList podcasts = {filteredPodcasts}/>
+        </div>
     );
   }
 }
 
-export default App;
+export default App; 
